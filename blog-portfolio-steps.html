@@ -1,0 +1,157 @@
+1. Copy the folder blog-portfolio to xampp-> htdocs
+2. Open the folder to VS Code and then rename the extension to .php
+3. Create functions folder
+        <!-- Create Files inside make funcions of all page
+                including connection.php
+        
+                ex: dashboard-functions.php
+        -->
+4. Discuss Bloggen and create tables from bloggen instructions
+5. Go to connection.php and create now connection function. do not forget to call the function.
+6. Connect the connection.php to users-functions.php
+        - put require_once "connection.php"; inside of the users-function.php
+        - We will connect later the users-functions.php to our front-end design to all users php
+7. Create register.php (you can copy the sign up form from our last activity) 
+        - include now the users-functions.php inside of register using (include) keyword
+                
+                include() Vs require()
+                In most cases, the require() statement works in the same way as the include() statement. The only difference is that the 
+                include() statement generates a PHP alert but allows script execution to proceed if the file to be included cannot be found. At the same time, the require() statement generates a fatal error and terminates the script.
+
+        - include "functions/users-functions.php";
+8. Create a function register() inside of users-functions.php
+        - create variables for form data and sql codes for accounts and users
+        - Create if isset inside of the register.php and call the function register(); inside
+        - Then Try to create accounts atleast three. then make Admin the first one
+                Admin ---> will go to dashboard
+                User ---> will go to profile
+9. Create function login inside of users-functions.php
+        - explain that we have to create a function getFullname once reached coding in $_SESSION
+                create first function getFullname then continue the function login
+10. Go to login.php and insert this php code
+        - <?php
+                 include "functions/users-functions.php";
+
+          ?>
+
+        and inside of the body if(isset)
+                <?php
+                        if (isset($_POST['login'])) {
+                        login();
+                }
+                ?>
+        - once done, try to login different accounts: admin and user
+<!-- Once they successful login the user and admin then let the students do the other steps which is the step #12 -->
+
+<!-- Dont mind first the "The table should show ALL the posts of ALL the users" on step #12 -->
+
+11. Proceed to step #13
+                - create function addCategory(); in categories-functions.php
+                - add  include "functions/categories-functions.php"; inside  categories.php
+                - call the function addCategory inside of the categories.php after the form
+                        if(isset($_POST['add'])){
+                                addCategory();
+                        }
+                - create function displayCategories(); in categories-functions
+                - put this php code inside of the tbody of categories.php
+                        <?php
+                                displayCategories();
+                        ?>
+                - try to add category and see if it is now displaying all categories
+
+                - create update-category.php and create design
+                - create a function that will update and delete category inside of the categories-functions
+                                <!-- Work with update button first -->
+                        - but create first a function getCategory(); inside of categories-functions to display our category name in update-category.php
+                        - Create a function updateCategory inside categories-functions.php
+                        - create ifisset inside of the update-category.php and put this php code before isset
+                                $cat_details = getCategory($_GET['cat_id']);
+
+                                if(isset($_POST['update'])){
+                                        updateCategory($_GET['cat_id']);
+                                }
+                        - in input inside of update-category.php, add value with this php code
+                                value="<?= $cat_details['category_name'] ?>"
+                                <!-- then try the update buttons. If it is successful proced the delete button-->
+                                
+                                <!-- Work with delete button -->
+                        - create a delete-category.php and design.
+                        - create a function deleteCategory inside categories-functions
+                        - include 'functions/category-functions.php'; inside delete-category
+                        - and paste this php code above after inlclude inside of delete-category
+                                $cat_details = getCategory($_GET['cat_id']);
+                        - paste this php code inside of the body of delete-category after "are you sure you want to delete"
+                                <?= $cat_details['category_name'] ?> 
+                        - create ifisset btn_delete then call the function deleteCategory
+                        - do not forget to put inside of the anchor tag of cancel --> go to categories.php
+12. Go to step #14
+        - create function addUser() inside users-functions
+        - add this php code inside of users.php at the top of html
+                                <?php
+                                include "functions/users-functions.php";
+                                ?>
+        - and this is for the body after the form
+                                <?php
+                                        if(isset($_POST['add'])){
+                                
+                                        $password = $_POST['password'];
+                                        $confim_password = $_POST['confirm_password'];
+                                        
+                                        if($password == $confim_password){
+                                                addUser();
+                                        }else{
+                                                echo "<p class='text-danger'>Password and confirm password do not match</p>";
+                                        }
+                                        
+                                        }
+                                ?>
+        - create a function displayAllusers() ---> this is to display all users inside of the table of users.php
+        - put this php code inside of the tbody
+                                        <?php
+                                                displayAllUsers();
+                                        ?>
+                        <!-- Create update-user.php and delete-user.php to update and delete user -->
+        - Create update-user.php
+                        - first create a function displayProfile users-functions to display specific profile to be edited
+                        - add this php code above inside php of update-user
+                                        $user_details = displayProfile($_GET['account_id']);
+                                <!-- to confirm password before update -->
+                        - second create function getPassword()
+
+                        - third create a funtion updateProfile for the button update
+                                                $sql = "UPDATE accounts INNER JOIN users ON users.account_id = accounts.account_id SET users.first_name = '$first_name', users.last_name = '$last_name', users.address = '$address', users.contact_number = '$contact_number', accounts.username = '$username' WHERE accounts.account_id = $account_id";
+                                        -try to update user. if it's successfull
+
+                        - fourth create delete-user.php
+                                        create a function deleteProfile
+                                                $sql = "DELETE accounts, users FROM accounts INNER JOIN users ON accounts.account_id = users.account_id WHERE accounts.account_id = '$profile_id'";
+                  
+
+13. Go first step #16
+        - create a function getUser inside of posts-functions
+                because we have to know the id the logged in user, once click add post it will show the id in url
+
+        - proceed first to step #15 
+                - display username of the logged in user in dropdown listbox
+  
+14. Proceed to step #15
+        - create add-post.php
+                - create a function displayCategories inside of post-functions
+                - use function getUser and create while loop inside of the select tag
+                - create function addPost inside of post-functions
+                        -try to addpost if successful proceed to posts.php and 
+
+15. Continue step #16
+        - Create a function displayUserPosts inside posts-functions 
+                - display all posts of logged in user inside of the table
+
+16. Proceed to step #17
+        - create a function getPostDetails() inside of post-functions
+
+        <!-- Please display all posts in dashboard -->
+        - create edit-post.php
+                create a function getCategory
+                
+        
+                        
+                        
